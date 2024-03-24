@@ -6,6 +6,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const [error, setError] = useState("");
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -37,7 +38,7 @@ const Login = () => {
   return (
     <div data-bs-spy="scroll">
       <h2 style={{ textAlign: "center" }}>Login</h2>
-      {error && <p>{error}</p>}
+      {error && <Alert variant="danger">{error}</Alert>}
       {errors.length > 0 && (
         <div
           style={{

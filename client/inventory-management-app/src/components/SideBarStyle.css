@@ -1,0 +1,9 @@
+.nav-links {
+    display: inline-block;
+
+}
+
+.nav-links:hover {
+    background-color: #0d6efd;
+
+}

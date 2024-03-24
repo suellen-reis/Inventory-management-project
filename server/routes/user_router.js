@@ -87,8 +87,8 @@ router.post("/login", async (req, res, next) => {
   }
 
   passport.authenticate("local", (err, user, info) => {
-    console.log("Error in authenticate", err);
     if (err) {
+      console.log("Error in authenticate", err);
       return next(err);
     }
     if (!user) {
@@ -106,6 +106,15 @@ router.post("/login", async (req, res, next) => {
           expiresIn: "6h",
         }
       );
+      // Send HTTP-Only cookie
+      // res.cookie("token", token, {
+      //   path: "/",
+      //   httpOnly: true,
+      //   expires: new Date(Date.now() + 1000 * 86400), // 1 day
+      //   sameSite: "none",
+      //   secure: true,
+      // });
+
       // Send back the token
       return res.status(200).json({ token });
     });
@@ -114,8 +123,26 @@ router.post("/login", async (req, res, next) => {
 
 // Logout route
 router.get("/logout", (req, res) => {
-  req.logout();
-  res.status(200).json({ msg: "Logout successful" });
+  req.logout(() => {
+    console.log("Logged out successfully");
+  });
+  // res.redirect("/logout");
+
+  // Send HTTP-Only cookie
+  // res.cookie("token", "", {
+  //   path: "/",
+  //   httpOnly: true,
+  //   expires: new Date(0),
+  //   sameSite: "none",
+  //   secure: true,
+  // });
+
+  res.status(200).json();
+});
+
+// Get user Information from database
+router.get("/getUser", (req, res) => {
+  res.send("Get user information");
 });
 
 module.exports = router;

@@ -9,6 +9,7 @@ const passport = require("passport");
 const bodyParser = require("body-parser");
 const config = require("./config/db_config");
 const user_routes = require("./routes/user_router");
+// const cookieParser = require("cookie-parser");
 
 //PORT
 const PORT = process.env.PORT;
@@ -38,6 +39,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
+// app.use(cookieParser());
 app.use(bodyParser.json());
 
 //Initialize session

@@ -16,6 +16,7 @@ let userSchema = mongoose.Schema(
     password: {
       type: String,
       required: true,
+      minLength: [4, "Password must be at least 4 characters "],
     },
   },
   {
