@@ -1,5 +1,5 @@
 // Import dependencies
-const dotenv = require("dotenv").config;
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
@@ -8,9 +8,10 @@ const session = require("express-session");
 const passport = require("passport");
 const bodyParser = require("body-parser");
 const config = require("./config/db_config");
+const user_routes = require("./routes/user_router");
 
 //PORT
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT;
 
 //Connect to mongodb and Start Server
 mongoose
@@ -33,17 +34,30 @@ db.on("error", function (err) {
 //Initialize Express
 const app = express();
 
-//Configure server
+//Configure server(Middlewares)
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
+app.use(bodyParser.json());
 
 //Initialize session
 app.use(
   session({
-    secret: "secret",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {},
   })
 );
+
+require("./config/passport")(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Routes pages
+app.get("/", (req, res) => {
+  res.send("Home Page");
+});
+
+// Routes server/routes(middleware)
+app.use("/user", user_routes);
