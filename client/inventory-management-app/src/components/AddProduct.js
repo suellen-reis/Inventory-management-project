@@ -39,14 +39,18 @@ const AddProduct = () => {
     console.log(userId);
 
     try {
-      const response = await fetch("http://localhost:8000/product/add", {
-        method: "POST",
-        headers: {
-          Authorization: token,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(productData),
-      });
+      const response = await fetch(
+        "https://inventory-management-project-server-peach.vercel.app/product/add" ||
+          "http://localhost:8000/product/add",
+        {
+          method: "POST",
+          headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(productData),
+        }
+      );
       if (!response.ok) {
         const errorData = await response.json();
         if (errorData.errors) {

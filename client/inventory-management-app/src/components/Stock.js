@@ -23,13 +23,17 @@ const Stock = () => {
       if (token) {
         console.log("Fetch Stock");
         try {
-          const response = await fetch(`http://localhost:8000/product/stock`, {
-            method: "GET",
-            headers: {
-              Authorization: token,
-              "Content-Type": "application/json",
-            },
-          });
+          const response = await fetch(
+            "https://inventory-management-project-server-peach.vercel.app/product/stock" ||
+              `http://localhost:8000/product/stock`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: token,
+                "Content-Type": "application/json",
+              },
+            }
+          );
 
           if (!response.ok) {
             const errorData = await response.json();

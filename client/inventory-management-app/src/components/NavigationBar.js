@@ -10,12 +10,16 @@ const NavigationBar = () => {
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8000/user/logout", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        "https://inventory-management-project-server-peach.vercel.app/user/logout" ||
+          "http://localhost:8000/user/logout",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (!response.ok) {
         const errorData = await response.json();
         if (errorData.errors) {
