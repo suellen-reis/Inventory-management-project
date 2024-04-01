@@ -13,7 +13,7 @@ const product_routes = require("./routes/product_router");
 // const cookieParser = require("cookie-parser");
 
 //PORT
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8000;
 
 //Connect to mongodb and Start Server
 //MongoDB Atlas
