@@ -5,6 +5,10 @@ const passport = require("passport");
 const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const session = require("express-session");
+
+// Import User Mongoose schemas
+let User = require("../models/userModel");
+
 router.use(
   session({
     secret: process.env.SECRET,
@@ -13,9 +17,6 @@ router.use(
     cookie: {},
   })
 );
-
-// Import User Mongoose schemas
-let User = require("../models/userModel");
 
 // Create register route
 router
@@ -49,7 +50,9 @@ router
       // Check if user already exists
       let existingUser = await User.findOne({ email: req.body.email });
       if (existingUser) {
-        return res.status(400).json({ msg: "User already exists" });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "User already exists" }] });
       }
 
       // Hash password
@@ -85,14 +88,16 @@ router.post("/login", async (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-
   passport.authenticate("local", (err, user, info) => {
     if (err) {
-      console.log("Error in authenticate", err);
+      console.log("Error in authentication", err);
       return next(err);
     }
     if (!user) {
-      return res.status(401).json({ msg: "Invalid credentials" });
+      console.log("User was not found.");
+      return res
+        .status(401)
+        .json({ errors: [{ msg: "Invalid credentials." }] });
     }
     req.logIn(user, async (err) => {
       if (err) {
@@ -103,18 +108,9 @@ router.post("/login", async (req, res, next) => {
         { id: user._id, name: user.name },
         process.env.SECRET,
         {
-          expiresIn: "6h",
+          expiresIn: "2h",
         }
       );
-      // Send HTTP-Only cookie
-      // res.cookie("token", token, {
-      //   path: "/",
-      //   httpOnly: true,
-      //   expires: new Date(Date.now() + 1000 * 86400), // 1 day
-      //   sameSite: "none",
-      //   secure: true,
-      // });
-
       // Send back the token
       return res.status(200).json({ token });
     });
@@ -126,23 +122,12 @@ router.get("/logout", (req, res) => {
   req.logout(() => {
     console.log("Logged out successfully");
   });
-  // res.redirect("/logout");
-
-  // Send HTTP-Only cookie
-  // res.cookie("token", "", {
-  //   path: "/",
-  //   httpOnly: true,
-  //   expires: new Date(0),
-  //   sameSite: "none",
-  //   secure: true,
-  // });
-
   res.status(200).json();
 });
 
 // Get user Information from database
-router.get("/getUser", (req, res) => {
+/*router.get("/getUser", (req, res) => {
   res.send("Get user information");
-});
+});*/
 
 module.exports = router;

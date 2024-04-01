@@ -20,19 +20,19 @@ const Routing = () => {
         {isLoggedIn && (
           <>
             <Route path="/" Component={Dashboard}></Route>
-            <Route path="/edit" Component={Edit}></Route>
-            <Route path="/addProduct" Component={AddProduct}></Route>
-            <Route path="/stock" Component={Stock}></Route>
-            <Route path="/buy" Component={Buy}></Route>
+            <Route path="/product/add" Component={AddProduct}></Route>
+            <Route path="/product/stock" Component={Stock}></Route>
+            <Route path="/product/edit" Component={Edit}></Route>
+            <Route path="/product/buy" Component={Buy}></Route>
           </>
         )}
 
         {!isLoggedIn && (
           <>
             <Route path="/" Component={Home}></Route>
-            <Route path="/login" Component={Login}></Route>
-            <Route path="/register" Component={Register}></Route>
-            <Route path="/logout" Component={Logout}></Route>
+            <Route path="/user/login" Component={Login}></Route>
+            <Route path="/user/register" Component={Register}></Route>
+            <Route path="/user/logout" Component={Logout}></Route>
           </>
         )}
 

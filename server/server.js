@@ -9,20 +9,36 @@ const passport = require("passport");
 const bodyParser = require("body-parser");
 const config = require("./config/db_config");
 const user_routes = require("./routes/user_router");
+const product_routes = require("./routes/product_router");
 // const cookieParser = require("cookie-parser");
 
 //PORT
 const PORT = process.env.PORT;
 
 //Connect to mongodb and Start Server
+//MongoDB Atlas
+const MONGO_URI = process.env.MONGO_URI;
 mongoose
-  .connect(config.database)
+  .connect(MONGO_URI)
   .then(() => {
+    console.log("MongoDB Atlas: Database connected successfully.");
     app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
   })
   .catch((err) => {
     console.log(err);
   });
+
+//MongoDB Compass
+/*mongoose
+  .connect(config.database)
+  .then(() => {
+    console.log("MongoDB Compass: Database connected successfully.");
+    app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+*/
 
 let db = mongoose.connection;
 db.once("open", function () {
@@ -63,3 +79,4 @@ app.get("/", (req, res) => {
 
 // Routes server/routes(middleware)
 app.use("/user", user_routes);
+app.use("/product", product_routes);

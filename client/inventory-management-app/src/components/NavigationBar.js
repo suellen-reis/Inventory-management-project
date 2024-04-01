@@ -26,7 +26,7 @@ const NavigationBar = () => {
         return;
       }
       localStorage.removeItem("token");
-      window.location.href = "/logout";
+      window.location.href = "/user/logout";
     } catch (error) {
       console.log(error.message);
     }
@@ -34,20 +34,18 @@ const NavigationBar = () => {
 
   return (
     <Navbar collapseOnSelect expand="md" bg="dark" data-bs-theme="dark">
-      <Container>
-        <Navbar.Brand href="/">Inventory Management</Navbar.Brand>
+      <Container fluid>
+        <Navbar.Brand href="/" className="text-warning">
+          <i className="m-2 bi bi-globe-americas"></i>
+          <span className="ms-0 fs-5 d-none d-lg-inline">Inventory App</span>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav"></Navbar.Toggle>
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="/">Dashboard</Nav.Link>
+          <Nav className="ms-auto">
             {isLoggedIn && (
               <>
-                <Nav.Link href="/edit">Edit</Nav.Link>
-                <Nav.Link href="/AddProduct">Add Product</Nav.Link>
-                {/* <Nav.Link href="/buy">Buy </Nav.Link> */}
-                <Nav.Link href="/stock">Stock</Nav.Link>
                 <Button onClick={handleLogout}>
-                  <i class="bi bi-box-arrow-right"></i>
+                  <i className="bi bi-box-arrow-right"></i>
                   Logout
                 </Button>
               </>
@@ -55,8 +53,28 @@ const NavigationBar = () => {
 
             {!isLoggedIn && (
               <>
-                <Nav.Link href="/login">Login</Nav.Link>
-                <Nav.Link href="/register">Register</Nav.Link>
+                <Nav.Link
+                  href="/"
+                  className="text-white my-1 nav-links"
+                  aria-current="page"
+                >
+                  <i className="m-2 bi bi-house-door"></i>
+                  <span className="ms-2 d-none d-sm-inline">Home</span>
+                </Nav.Link>
+                <Nav.Link
+                  href="/user/login"
+                  className="text-white my-1 nav-links"
+                >
+                  <i className="m-2 bi bi-person-check"></i>
+                  <span className="ms-2 d-none d-sm-inline">Login</span>
+                </Nav.Link>
+                <Nav.Link
+                  href="/user/register"
+                  className="text-white my-1 nav-links"
+                >
+                  <i className="m-2 bi bi-person-vcard"></i>
+                  <span className="ms-2 d-none d-sm-inline">Register</span>
+                </Nav.Link>
               </>
             )}
           </Nav>

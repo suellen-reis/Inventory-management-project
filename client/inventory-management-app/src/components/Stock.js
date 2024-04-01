@@ -1,84 +1,100 @@
-import React from "react";
-import { Table } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
+import { Table, Alert } from "react-bootstrap";
 
 const Stock = () => {
-  const stockData = [
-    {
-      productNumber: 1,
-      productName: "Product 1",
-      category: "Category 1",
-      description: "Description 1",
-      cost: 100,
-      purchase: {
-        date: "2024-03-20",
-        quantity: 10,
-        unitCost: 100,
-        totalCost: 1000,
-      },
-      sales: { date: "2024-03-25", units: 5, unitCost: 100, totalCost: 500 },
-      balance: { units: 5, unitCost: 100, totalCost: 500 },
-    },
-    {
-      productNumber: 2,
-      productName: "Product 2",
-      category: "Category 2",
-      description: "Description 2",
-      cost: 150,
-      purchase: {
-        date: "2024-03-22",
-        quantity: 8,
-        unitCost: 150,
-        totalCost: 1200,
-      },
-      sales: { date: "2024-03-28", units: 3, unitCost: 150, totalCost: 450 },
-      balance: { units: 5, unitCost: 150, totalCost: 750 },
-    },
-    // Add more products as needed
-  ];
+  const token = localStorage.getItem("token");
+  const decodedToken = token ? jwtDecode(token) : null;
+  const userId = decodedToken ? decodedToken.name : null;
+  const [errors, setErrors] = useState([]);
+  const [error, setError] = useState("");
+  const [stockData, setStockData] = useState([]);
+
+  // Check if there is a Token
+  useEffect(() => {
+    if (!token) {
+      window.location.href = "/user/login";
+    }
+  }, [token]);
+
+  // Fetch data from a GET request
+  useEffect(() => {
+    const fetchStock = async () => {
+      if (token) {
+        console.log("Fetch Stock");
+        try {
+          const response = await fetch(`http://localhost:8000/product/stock`, {
+            method: "GET",
+            headers: {
+              Authorization: token,
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            if (errorData.errors) {
+              setErrors(errorData.errors.map((err) => err.msg));
+              console.log(errorData.errors);
+            } else {
+              throw new Error(
+                errorData.msg || "An error occurred while fetching Stock Data"
+              );
+            }
+            return;
+          }
+          const data = await response.json();
+          setStockData(data);
+          console.log("Stock was loaded.");
+        } catch (error) {
+          console.error("Error while fetching product", error);
+        }
+      }
+    };
+    fetchStock();
+  }, [token]);
 
   return (
     <div className="mainDiv">
       <h2>Stock</h2>
+      {error && <Alert variant="danger">{error}</Alert>}
+      {errors.length > 0 && (
+        <div
+          style={{
+            width: "50%",
+            padding: 5,
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
+          {errors.map((err, index) => (
+            <Alert key={index} variant="danger">
+              {err}
+            </Alert>
+          ))}
+        </div>
+      )}
+
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Product Number</th>
+            <th>Product Code</th>
             <th>Product Name</th>
-            <th>Category</th>
             <th>Description</th>
-            <th>Cost</th>
-            <th>Purchase Date</th>
-            <th>Purchase Quantity</th>
-            <th>Purchase Unit Cost</th>
-            <th>Purchase Total Cost</th>
-            <th>Sales Date</th>
-            <th>Sales Units</th>
-            <th>Sales Unit Cost</th>
-            <th>Sales Total Cost</th>
-            <th>Balance Units</th>
-            <th>Balance Unit Cost</th>
-            <th>Balance Total Cost</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
           </tr>
         </thead>
         <tbody>
           {stockData.map((product, index) => (
             <tr key={index}>
-              <td>{product.productNumber}</td>
+              <td>{product.code}</td>
               <td>{product.productName}</td>
-              <td>{product.category}</td>
               <td>{product.description}</td>
-              <td>{product.cost}</td>
-              <td>{product.purchase.date}</td>
-              <td>{product.purchase.quantity}</td>
-              <td>{product.purchase.unitCost}</td>
-              <td>{product.purchase.totalCost}</td>
-              <td>{product.sales.date}</td>
-              <td>{product.sales.units}</td>
-              <td>{product.sales.unitCost}</td>
-              <td>{product.sales.totalCost}</td>
-              <td>{product.balance.units}</td>
-              <td>{product.balance.unitCost}</td>
-              <td>{product.balance.totalCost}</td>
+              <td>{product.quantity}</td>
+              <td>{product.price}</td>
+              <td>{product.total}</td>
             </tr>
           ))}
         </tbody>

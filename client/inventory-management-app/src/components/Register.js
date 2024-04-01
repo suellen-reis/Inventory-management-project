@@ -103,6 +103,8 @@ const RegisterPage = () => {
           marginLeft: "auto",
           marginRight: "auto",
           marginBottom: 50,
+          border: "solid 1px gray",
+          borderRadius: 10,
         }}
       >
         {/* Name input */}

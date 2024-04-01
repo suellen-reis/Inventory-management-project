@@ -1,17 +1,35 @@
 import React from "react";
+import { Button, Card } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Error = () => {
+  const navigate = useNavigate();
   return (
-    <div
-      style={{
-        color: "red",
-        padding: "10px",
-        border: "1px solid red",
-        borderRadius: "5px",
-        marginBottom: "10px",
-      }}
-    >
-      <p>Page not found.</p>
+    <div>
+      <Card
+        bg="danger"
+        text="light"
+        className="text-center"
+        style={{
+          width: "50%",
+          marginTop: 20,
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}
+      >
+        <Card.Text>Page Not Found</Card.Text>
+        <Button
+          style={{
+            width: "40%",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+          variant="light"
+          onClick={() => navigate("/")}
+        >
+          Go to HomePage
+        </Button>
+      </Card>
     </div>
   );
 };

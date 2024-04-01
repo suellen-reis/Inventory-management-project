@@ -1,14 +1,21 @@
 import React, { useState } from "react";
-import { Button, Form, Alert } from "react-bootstrap";
+import { Button, Card, Form, Alert } from "react-bootstrap";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const [error, setError] = useState("");
+  const [validated, setValidated] = useState(false);
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    setValidated(true);
     try {
       const response = await fetch("http://localhost:8000/user/login", {
         method: "POST",
@@ -31,8 +38,8 @@ const Login = () => {
       localStorage.setItem("token", token);
       console.log("Login successful");
       window.location.href = "/";
-    } catch (error) {
-      setError(error.message);
+    } catch (err) {
+      setError(err.message);
     }
   };
   return (
@@ -56,35 +63,46 @@ const Login = () => {
         </div>
       )}
       <Form
-        onSubmit={handleLogin}
+        noValidate
+        validated={validated}
         style={{
           display: "block",
           width: "50%",
           padding: 30,
           marginLeft: "auto",
           marginRight: "auto",
+          border: "solid 1px gray",
+          borderRadius: 10,
         }}
       >
         <Form.Group className="mb-3">
           <Form.Label>Email address</Form.Label>
           <Form.Control
             type="email"
+            required
             placeholder="Enter email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          <Form.Control.Feedback type="invalid">
+            Please provide a valid email.
+          </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Password</Form.Label>
           <Form.Control
+            required
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <Form.Control.Feedback type="invalid">
+            Please provide a valid password.
+          </Form.Control.Feedback>
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="button" onClick={handleLogin}>
           Login
         </Button>
       </Form>
