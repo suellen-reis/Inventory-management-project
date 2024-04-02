@@ -80,3 +80,6 @@ app.get("/", (req, res) => {
 // Routes server/routes(middleware)
 app.use("/user", user_routes);
 app.use("/product", product_routes);
+
+//Export
+module.exports = app;
