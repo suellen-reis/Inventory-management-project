@@ -11,8 +11,7 @@ const NavigationBar = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "https://inventory-management-project-server-peach.vercel.app/user/logout" ||
-          "http://localhost:8000/user/logout",
+        `${process.env.REACT_APP_HOST}/user/logout`,
         {
           method: "GET",
           headers: {

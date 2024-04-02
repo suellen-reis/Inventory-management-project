@@ -40,8 +40,7 @@ const AddProduct = () => {
 
     try {
       const response = await fetch(
-        "https://inventory-management-project-server-peach.vercel.app/product/add" ||
-          "http://localhost:8000/product/add",
+        `${process.env.REACT_APP_HOST}/product/add`,
         {
           method: "POST",
           headers: {
