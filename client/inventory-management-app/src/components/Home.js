@@ -23,10 +23,10 @@ const Home = () => {
         <ListGroup.Item as="li">User Profile</ListGroup.Item>
       </ListGroup>
       <ListGroup className="mt-5">
-        <ListGroup.Item action href="/register" variant="primary">
+        <ListGroup.Item action href="/user/register" variant="primary">
           New User: Register Here.
         </ListGroup.Item>
-        <ListGroup.Item action href="/login" variant="success">
+        <ListGroup.Item action href="/user/login" variant="success">
           Existing User: Login Here
         </ListGroup.Item>
       </ListGroup>

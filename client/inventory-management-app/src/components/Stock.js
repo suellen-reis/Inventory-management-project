@@ -24,8 +24,7 @@ const Stock = () => {
         console.log("Fetch Stock");
         try {
           const response = await fetch(
-            "https://inventory-management-project-server-peach.vercel.app/product/stock" ||
-              `http://localhost:8000/product/stock`,
+            `${process.env.REACT_APP_HOST}/product/stock`,
             {
               method: "GET",
               headers: {

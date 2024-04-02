@@ -17,17 +17,13 @@ const Login = () => {
 
     setValidated(true);
     try {
-      const response = await fetch(
-        "https://inventory-management-project-server-peach.vercel.app/user/login" ||
-          "http://localhost:8000/user/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        }
-      );
+      const response = await fetch(`${process.env.REACT_APP_HOST}/user/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
       if (!response.ok) {
         const errorData = await response.json();
         if (errorData.errors) {

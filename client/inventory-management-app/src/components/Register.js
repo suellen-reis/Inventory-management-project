@@ -43,8 +43,7 @@ const RegisterPage = () => {
     // Make a fetch request to the server endpoint for registration
     try {
       const response = await fetch(
-        "https://inventory-management-project-server-peach.vercel.app/user/register" ||
-          "http://localhost:8000/user/register",
+        `${process.env.REACT_APP_HOST}/user/register`,
         {
           method: "POST",
           headers: {
