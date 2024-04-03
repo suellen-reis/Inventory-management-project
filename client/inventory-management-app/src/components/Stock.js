@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { Table, Alert, Button, ButtonGroup } from "react-bootstrap";
+import Edit from "./Edit";
 
 const Stock = () => {
   const token = localStorage.getItem("token");
@@ -9,6 +10,12 @@ const Stock = () => {
   const [errors, setErrors] = useState([]);
   const [error, setError] = useState("");
   const [stockData, setStockData] = useState([]);
+
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleVisible = () => {
+    setIsVisible((prev) => !prev);
+  };
 
   // Check if there is a Token
   useEffect(() => {
@@ -102,11 +109,24 @@ const Stock = () => {
               <td>{product.price}</td>
               <td>{product.total}</td>
               <td className="text-center">
-                <Button className="me-2 ms-2" type="button" variant="warning">
+                <Button
+                  className="me-2 ms-2"
+                  type="button"
+                  variant="warning"
+                  size="sm"
+                  onClick={handleVisible}
+                >
+                  <i className="m-2 bi bi-pen"></i>
                   Edit
                 </Button>
 
-                <Button className="me-2 ms-2" type="button" variant="danger">
+                <Button
+                  className="me-2 ms-2"
+                  type="button"
+                  variant="danger"
+                  size="sm"
+                >
+                  <i className="m-2 bi bi-trash"></i>
                   Delete
                 </Button>
               </td>
@@ -114,6 +134,7 @@ const Stock = () => {
           ))}
         </tbody>
       </Table>
+      <Edit isVisible={isVisible} handleVisible={handleVisible}></Edit>
     </div>
   );
 };

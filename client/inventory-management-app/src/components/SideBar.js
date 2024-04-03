@@ -1,6 +1,5 @@
 import React from "react";
 import { Nav, Navbar, Button } from "react-bootstrap";
-import "bootstrap-icons/font/bootstrap-icons.css";
 import "./styles/SideBarStyle.css";
 
 const SideBar = () => {
@@ -36,37 +35,8 @@ const SideBar = () => {
               <i className="m-2 bi bi-box-seam"></i>
               <span className="ms-2 d-none d-sm-inline">Stock</span>
             </Nav.Link>
-            <Nav.Link
-              href="/product/edit"
-              className="text-white my-1 nav-links"
-              aria-current="page"
-            >
-              <i className="m-2 bi bi-pen"></i>
-              <span className="ms-2 d-none d-sm-inline">Edit</span>
-            </Nav.Link>
           </>
         )}
-
-        {/* {!isLoggedIn && (
-          <>
-            <Nav.Link
-              href="/"
-              className="text-white my-1 nav-links"
-              aria-current="page"
-            >
-              <i className="m-2 bi bi-house-door"></i>
-              <span className="ms-2 d-none d-sm-inline">Home</span>
-            </Nav.Link>
-            <Nav.Link href="/user/login" className="text-white my-1 nav-links">
-              <i className="m-2 bi bi-person-check"></i>
-              <span className="ms-2 d-none d-sm-inline">Login</span>
-            </Nav.Link>
-            <Nav.Link href="/user/register" className="text-white my-1 nav-links">
-              <i className="m-2 bi bi-person-vcard"></i>
-              <span className="ms-2 d-none d-sm-inline">Register</span>
-            </Nav.Link>
-          </>
-        )} */}
       </Nav>
     </div>
   );

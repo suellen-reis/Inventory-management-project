@@ -1,19 +1,9 @@
 import React, { useState } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
 
-const Edit = () => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  const handleVisible = () => {
-    setIsVisible((prev) => !prev);
-  };
-
+const Edit = ({ isVisible, handleVisible }) => {
   return (
-    <div className="mainDiv">
-      <h2>Edit</h2>
-      <Button variant="primary" onClick={handleVisible}>
-        Edit Modal
-      </Button>
+    <div>
       <Modal show={isVisible} onHide={handleVisible}>
         <Modal.Header>
           <Modal.Title>Edit Product Information</Modal.Title>
