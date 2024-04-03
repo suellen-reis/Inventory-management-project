@@ -60,7 +60,7 @@ const RegisterPage = () => {
         // Handle successful registration (e.g., redirect)
         console.log("User registered successfully");
         alert("registration successful");
-        window.location.href = "/login";
+        window.location.href = "/user/login";
       }
     } catch (error) {
       console.error("Error registering user:", error);

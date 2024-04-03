@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
-import { Table, Alert } from "react-bootstrap";
+import { Table, Alert, Button, ButtonGroup } from "react-bootstrap";
 
 const Stock = () => {
   const token = localStorage.getItem("token");
@@ -87,6 +87,9 @@ const Stock = () => {
             <th>Quantity</th>
             <th>Price</th>
             <th>Total</th>
+            <th colSpan={2} className="text-center">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -98,6 +101,15 @@ const Stock = () => {
               <td>{product.quantity}</td>
               <td>{product.price}</td>
               <td>{product.total}</td>
+              <td className="text-center">
+                <Button className="me-2 ms-2" type="button" variant="warning">
+                  Edit
+                </Button>
+
+                <Button className="me-2 ms-2" type="button" variant="danger">
+                  Delete
+                </Button>
+              </td>
             </tr>
           ))}
         </tbody>
