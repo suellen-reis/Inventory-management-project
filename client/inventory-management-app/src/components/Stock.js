@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
 import { Table, Alert, Button } from "react-bootstrap";
 import Edit from "./Edit";
 import Delete from "./Delete";
 
 const Stock = () => {
   const token = localStorage.getItem("token");
-  const decodedToken = token ? jwtDecode(token) : null;
-  const userId = decodedToken ? decodedToken.name : null;
   const [errors, setErrors] = useState([]);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [stockData, setStockData] = useState([]);
 
   const [isVisible, setIsVisible] = useState(false);
@@ -107,10 +103,9 @@ const Stock = () => {
   }, [token, isVisibleDel, isVisible]);
 
   return (
-    <div className="mainDiv">
+    <div className="table-responsive-sm mainDiv">
       <h2>Stock</h2>
       {error && <Alert variant="danger">{error}</Alert>}
-      {success && <Alert variant="success">{success}</Alert>}
       {errors.length > 0 && (
         <div
           style={{
@@ -128,7 +123,7 @@ const Stock = () => {
         </div>
       )}
 
-      <Table striped bordered hover>
+      <Table striped bordered hover className="table">
         <thead>
           <tr>
             <th>Product Code</th>
@@ -149,8 +144,18 @@ const Stock = () => {
               <td>{product.productName}</td>
               <td>{product.description}</td>
               <td>{product.quantity}</td>
-              <td>{product.price}</td>
-              <td>{product.total}</td>
+              <td>
+                {product.price.toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                })}
+              </td>
+              <td>
+                {product.total.toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                })}
+              </td>
               <td className="text-center">
                 <Button
                   className="me-2 ms-2"

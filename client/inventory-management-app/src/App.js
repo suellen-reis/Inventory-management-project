@@ -22,7 +22,7 @@ function App() {
             <div className="col-2">
               <SideBar></SideBar>
             </div>
-            <div className="col-10">
+            <div className="col-10" style={{ marginBottom: "50px" }}>
               <Routing></Routing>
             </div>
           </>

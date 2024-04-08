@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
+const { ObjectId } = require("mongodb");
 
 let Product = require("../models/productModel");
-const { json } = require("body-parser");
+// const { json } = require("body-parser");
 
 // Check token
 function verifyToken(req, res, next) {
@@ -35,7 +36,7 @@ router
         .run(req);
       await check("quantity", "Quantity is required.")
         .notEmpty()
-        .isInt({ min: 1 })
+        .isInt({ min: 0 })
         .run(req);
       console.log(req.body);
 
@@ -113,6 +114,72 @@ router.route("/delete").delete(async (req, res) => {
   } catch (err) {
     console.error("Server Error deleting product", err);
     res.status(500).json({ error: "Server Error deleting product" });
+  }
+});
+
+router.route("/").get(verifyToken, async (req, res) => {
+  try {
+    const decodedToken = jwt.decode(req.headers.authorization);
+    console.log("Decoded", decodedToken);
+
+    // Load products based on userId
+    const products = await Product.find({ userId: decodedToken.id }).sort({
+      productName: 1,
+    });
+    const productsCount = await Product.countDocuments({
+      userId: decodedToken.id,
+    });
+
+    const totalQuantity = await Product.aggregate([
+      {
+        $match: {
+          userId: new ObjectId(decodedToken.id),
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          total_quantity: { $sum: "$quantity" },
+        },
+      },
+    ]);
+
+    const totalAmount = await Product.aggregate([
+      {
+        $match: {
+          userId: new ObjectId(decodedToken.id),
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          total_amount: { $sum: "$total" },
+        },
+      },
+    ]);
+
+    const outOfStockCount = await Product.countDocuments({
+      userId: decodedToken.id,
+      quantity: 0,
+    });
+    const outOfStock = await Product.find({
+      userId: decodedToken.id,
+      quantity: 0,
+    });
+
+    res.json({
+      products: products,
+      productsCount: productsCount,
+      totalQuantity: totalQuantity,
+      totalAmount: totalAmount,
+      outOfStockCount: outOfStockCount,
+      outOfStock: outOfStock,
+    });
+  } catch (err) {
+    console.log(err, "Error getting products from server.");
+    res
+      .status(500)
+      .json({ error: "Internal Server Error while getting products." });
   }
 });
 
