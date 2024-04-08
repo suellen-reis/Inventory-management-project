@@ -4,7 +4,8 @@ Inventory-management-project
 ## Getting Started
 Vercel:
 https://inventory-management-project-client.vercel.app/
-Create an account
+
+- Create an account to use the system
 
 ### Prerequisites
 SERVER:
