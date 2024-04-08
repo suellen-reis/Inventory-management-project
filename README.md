@@ -7,7 +7,8 @@ https://inventory-management-project-client.vercel.app/
 Create an account
 
 ### Prerequisites
-NodeJS: v20.10.0
+SERVER:
+NodeJS: v20.10.0,
 "bcrypt": "^5.1.1",
 "bcryptjs": "^2.4.3",
 "body-parser": "^1.20.2",
@@ -22,9 +23,29 @@ NodeJS: v20.10.0
 "passport": "^0.7.0",
 "passport-local": "^1.0.0"
 
+CLIENT:
+ "@testing-library/jest-dom": "^5.17.0",
+ "@testing-library/react": "^13.4.0",
+ "@testing-library/user-event": "^13.5.0",
+ "bootstrap": "^5.3.3",
+ "bootstrap-icons": "^1.11.3",
+ "chart.js": "^4.4.2",
+ "dotenv": "^16.4.5",
+ "jsonwebtoken": "^9.0.2",
+ "jwt-decode": "^4.0.0",
+ "react": "^18.2.0",
+ "react-bootstrap": "^2.10.2",
+ "react-bootstrap-icons": "^1.11.3",
+ "react-chartjs-2": "^5.2.0",
+ "react-dom": "^18.2.0",
+ "react-router-dom": "^6.22.3",
+ "react-scripts": "^5.0.1",
+ "web-vitals": "^2.1.4"
+
 ### Installation
 GitHub
 Clone the project and add env files to:
+https://github.com/suellen-reis/Inventory-management-project
 - client\inventory-management-app
 - server
 - 
