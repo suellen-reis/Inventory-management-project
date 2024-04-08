@@ -8,7 +8,7 @@ const AddProduct = () => {
   const userId = decodedToken ? decodedToken.id : null;
   const [errors, setErrors] = useState([]);
   const [error, setError] = useState("");
-  const [productData, setProductData] = useState({
+  const [productData, setProduct] = useState({
     productName: "",
     code: "",
     description: "",
@@ -19,7 +19,7 @@ const AddProduct = () => {
 
   const handleFormInput = (e) => {
     const { name, value } = e.target;
-    setProductData((prevProductData) => ({
+    setProduct((prevProductData) => ({
       ...prevProductData,
       [name]: value,
     }));

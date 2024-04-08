@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AddProduct from "./AddProduct";
-import Buy from "./Buy";
 import Dashboard from "./Dashboard";
 import Edit from "./Edit";
 import Error from "./Error";
@@ -23,7 +22,6 @@ const Routing = () => {
             <Route path="/product/add" Component={AddProduct}></Route>
             <Route path="/product/stock" Component={Stock}></Route>
             <Route path="/product/edit" Component={Edit}></Route>
-            <Route path="/product/buy" Component={Buy}></Route>
           </>
         )}
 

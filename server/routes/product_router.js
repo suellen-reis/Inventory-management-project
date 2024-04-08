@@ -80,62 +80,40 @@ router.route("/stock").get(verifyToken, async (req, res) => {
 });
 
 // Route to update product
-router
-  .route("/edit")
-  .get(async (req, res) => {
-    try {
-      const product = await Product.find(req.params.id);
-      res.json({ product: product });
-    } catch (err) {
-      console.error("Server Error fetching product.", err);
-      res.status(500).json({ error: "Server Error fetching product" });
-    }
-  })
-  .post(async (req, res) => {
-    let product = {
-      code: req.body.code,
-      productName: req.body.productName,
-      description: req.body.description,
-      quantity: req.body.quantity,
-      price: req.body.price,
-      total: product.quantity * product.price,
-      userId: req.body.userId,
-    };
-    const query = { _id: req.params.id };
-    try {
-      await Product.updateOne(query, product);
-      res.json({ message: "Successfully Updated" });
-    } catch (err) {
-      console.error("Server Error updating product:", err);
-      res.status(500).json({ error: "Server Error uptading product" });
-    }
-  });
+router.route("/edit").put(async (req, res) => {
+  console.log("Edit backend", req.body);
+  let product = {
+    code: req.body.code,
+    productName: req.body.productName,
+    description: req.body.description,
+    quantity: req.body.quantity,
+    price: req.body.price,
+    total: req.body.quantity * req.body.price,
+    userId: req.body.userId,
+  };
+  try {
+    await Product.updateOne({ _id: req.body._id }, product);
+    res.json({ message: "Successfully Updated" });
+  } catch (err) {
+    console.error("Server Error updating product:", err);
+    res.status(500).json({ error: "Server Error uptading product" });
+  }
+});
 
 // Route to delete product
-router
-  .route("/delete")
-  .get(async (req, res) => {
-    try {
-      const product = await Product.find(req.params.id);
-      res.json({ product: product });
-    } catch (err) {
-      console.error("Server Error fetching product", err);
-      res.status(500).json({ error: "Server Error fetching product" });
+router.route("/delete").delete(async (req, res) => {
+  try {
+    const response = await Product.deleteOne({ _id: req.body.id });
+    console.log(response);
+    if (response.deletedCount > 0) {
+      res.json({ message: "Product was deleted" });
+    } else {
+      res.status(404).json({ error: "Product was not found." });
     }
-  })
-  .delete(async (req, res) => {
-    try {
-      const query = { _id: req.params.id };
-      const response = await Product.deleteOne(query);
-      if (response.deleteCount > 0) {
-        res.json({ message: "Product was deleted" });
-      } else {
-        res.status(404).json({ error: "Product was not found." });
-      }
-    } catch (err) {
-      console.error("Server Error deleting product", err);
-      res.status(500).json({ error: "Server Error deleting product" });
-    }
-  });
+  } catch (err) {
+    console.error("Server Error deleting product", err);
+    res.status(500).json({ error: "Server Error deleting product" });
+  }
+});
 
 module.exports = router;
