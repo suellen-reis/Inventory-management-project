@@ -50,8 +50,8 @@ https://github.com/suellen-reis/Inventory-management-project
 - client\inventory-management-app
 - server
   
-Install dependencies
-npm install
+Install dependencies:
+- npm install
 
 ## Usage
 Users can perform the following actions:
