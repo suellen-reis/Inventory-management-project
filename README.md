@@ -49,7 +49,7 @@ Clone the project and add env files to:
 https://github.com/suellen-reis/Inventory-management-project
 - client\inventory-management-app
 - server
-- 
+  
 Install dependencies
 npm install
 
