@@ -59,6 +59,7 @@ const Stock = () => {
           return;
         }
         const data = await deleteResp.json();
+        handleVisibleDel();
         alert(data.message);
       } catch (error) {
         console.error("Error while fetching delete", error);

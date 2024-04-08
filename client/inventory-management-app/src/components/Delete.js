@@ -19,7 +19,6 @@ const Delete = ({ isVisible, handleVisible, product, onDelete }) => {
             variant="primary"
             onClick={() => {
               onDelete();
-              handleVisible();
             }}
           >
             Delete
